@@ -31,13 +31,12 @@ const ScreenContainer = styled.div`
   height: 300px;
 
   justify-content: space-between;
+  align-items: center;
 
   a {
     font-weight: 700;
     font-size: 15px;
     color: #ffffff;
-
-    margin-inline: auto;
   }
 `;
 
@@ -45,17 +44,21 @@ const StyledHeader = styled.header`
   font-family: "Saira Stencil One", cursive;
   font-size: 32px;
   color: #ffffff;
-
-  margin-inline: auto;
 `;
 
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
+
+  width: 90%;
+  max-width: 500px;
+
+  align-items: center;
 `;
 
 const StyledInput = styled.input`
-  width: 326px;
+  width: 90%;
+  max-width: 500px;
   height: 58px;
 
   border-radius: 5px;
@@ -70,13 +73,12 @@ const StyledInput = styled.input`
     color: #000000;
   }
 
-  margin-inline: auto;
-
   margin-bottom: 13px;
 `;
 
 const StyledButton = styled.button`
-  width: 326px;
+  width: 90%;
+  max-width: 326px;
   height: 46px;
 
   background: #a328d6;
@@ -84,7 +86,7 @@ const StyledButton = styled.button`
 
   border: none;
 
-  margin-inline: auto;
+  margin-top: 30px;
 
   font-weight: 700;
   font-size: 20px;
