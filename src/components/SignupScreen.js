@@ -1,25 +1,27 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const LoginScreen = () => {
+const SignupScreen = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("submit");
   };
 
   return (
     <ScreenContainer>
       <StyledHeader>MyWallet</StyledHeader>
       <StyledForm onSubmit={(event) => handleSubmit(event)}>
+        <StyledInput placeholder="Nome" />
         <StyledInput placeholder="E-mail" />
         <StyledInput placeholder="Senha" />
-        <StyledButton type="submit">Entrar</StyledButton>
+        <StyledInput placeholder="Confirme a senha" />
+        <StyledButton type="submit">Cadastrar</StyledButton>
       </StyledForm>
-      <StyledLink>Primeira vez? Cadastre-se!</StyledLink>
+      <Link to="/">Já tem uma conta? Entre agora!</Link>
     </ScreenContainer>
   );
 };
 
-export default LoginScreen;
+export default SignupScreen;
 
 // Styled Components
 
@@ -28,9 +30,17 @@ const ScreenContainer = styled.div`
   flex-direction: column;
 
   width: 100vw;
-  height: 300px;
+  height: 450px;
 
   justify-content: space-between;
+
+  a {
+    font-weight: 700;
+    font-size: 15px;
+    color: #ffffff;
+
+    margin-inline: auto;
+  }
 `;
 
 const StyledHeader = styled.header`
@@ -81,13 +91,7 @@ const StyledButton = styled.button`
   font-weight: 700;
   font-size: 20px;
 
-  color: #ffffff;
-`;
+  cursor: pointer;
 
-const StyledLink = styled.a`
-  font-weight: 700;
-  font-size: 15px;
   color: #ffffff;
-
-  margin-inline: auto;
 `;

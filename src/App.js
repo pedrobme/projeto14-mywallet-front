@@ -1,30 +1,22 @@
-import styled from "styled-components";
-import LoginScreen from "./components/LoginScreen";
+import SigninScreen from "./components/SigninScreen";
 import GlobalStyle from "./GlobalStyle";
 import ResetCss from "./ResetCss";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import SignupScreen from "./components/SignupScreen";
 
 function App() {
   return (
     <>
       <ResetCss />
       <GlobalStyle />
-      <Screen>
-        <LoginScreen />
-      </Screen>
+      <Router>
+        <Routes>
+          <Route path="/" element={<SigninScreen />} />
+          <Route path="/signup" element={<SignupScreen />} />
+        </Routes>
+      </Router>
     </>
   );
 }
 
 export default App;
-
-// Styled Components
-
-const Screen = styled.div`
-  width: 100vw;
-  height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-
-  justify-content: center;
-`;
