@@ -1,13 +1,21 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const WalletScreen = (props) => {
-  const { token } = props;
+const WalletScreen = () => {
+  const navigate = useNavigate();
+
+  const handleClick = (entryType) => {
+    navigate(`/entry/${entryType}`);
+  };
 
   return (
     <ScreenContainer>
       <StyledHeader>
         <p>Olá, Fulano</p>
-        <ion-icon name="log-out-outline"></ion-icon>
+        <ion-icon
+          onClick={() => navigate("/")}
+          name="log-out-outline"
+        ></ion-icon>
       </StyledHeader>
       <MainContent>
         <WalletDiv>
@@ -29,13 +37,13 @@ const WalletScreen = (props) => {
           </WalletBalance>
         </WalletDiv>
         <InsertEntriesButtons>
-          <button>
+          <button onClick={() => handleClick("gain")}>
             <div>
               <ion-icon name="add-circle-outline"></ion-icon>
               <p>Nova entrada</p>
             </div>
           </button>
-          <button>
+          <button onClick={() => handleClick("loss")}>
             <div>
               <ion-icon name="remove-circle-outline"></ion-icon>
               <p>Nova saída</p>

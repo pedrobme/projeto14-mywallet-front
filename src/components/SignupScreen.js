@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const SignupScreen = () => {
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    navigate("/");
   };
 
   return (

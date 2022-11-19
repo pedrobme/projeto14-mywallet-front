@@ -1,16 +1,22 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const AddEntry = () => {
   const { entrytype } = useParams();
 
-  console.log(entrytype);
+  const navigate = useNavigate();
+
+  const handleClick = (event) => {
+    event.preventDefault();
+
+    navigate(`/wallet`);
+  };
 
   const EntryJsx = () => {
     const GainJsx = (
       <ScreenContainer>
         <StyledHeader>Nova Entrada</StyledHeader>
-        <StyledForm>
+        <StyledForm onSubmit={(event) => handleClick(event)}>
           <StyledInput placeholder="Valor" />
           <StyledInput placeholder="Descrição" />
           <StyledButton type="submit">Salvar entrada</StyledButton>
@@ -21,7 +27,7 @@ const AddEntry = () => {
     const LossJsx = (
       <ScreenContainer>
         <StyledHeader>Nova Saída</StyledHeader>
-        <StyledForm>
+        <StyledForm onSubmit={(event) => handleClick(event)}>
           <StyledInput placeholder="Valor" />
           <StyledInput placeholder="Descrição" />
           <StyledButton type="submit">Salvar saída</StyledButton>
@@ -31,11 +37,13 @@ const AddEntry = () => {
 
     switch (entrytype) {
       case "gain":
-        console.log("entrou");
         return GainJsx;
 
       case "loss":
         return LossJsx;
+
+      default:
+        break;
     }
   };
 
