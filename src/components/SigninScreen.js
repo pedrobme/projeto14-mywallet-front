@@ -1,9 +1,18 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../contexts/AuthContext";
 
 const SigninScreen = () => {
+  const { setAuthToken } = React.useContext(AuthContext);
+
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    setAuthToken("Token recebido");
+
+    navigate("/wallet");
   };
 
   return (

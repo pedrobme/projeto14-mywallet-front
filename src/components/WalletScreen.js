@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-const WalletScreen = () => {
+const WalletScreen = (props) => {
+  const { token } = props;
+
   return (
     <ScreenContainer>
       <StyledHeader>
@@ -17,104 +19,6 @@ const WalletScreen = () => {
                   Almoço na minha mãe nao esquecer de pagar ela em até uma
                   semana
                 </EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>Almoço mãe</EntryDescription>
               </EntryInfo>
               <EntryAmount>39,90</EntryAmount>
             </li>
