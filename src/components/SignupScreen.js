@@ -1,11 +1,36 @@
+import axios from "axios";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const SignupScreen = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const newUserObject = {
+      username: username,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/signup",
+        newUserObject
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+
     navigate("/");
   };
 
@@ -13,10 +38,22 @@ const SignupScreen = () => {
     <ScreenContainer>
       <StyledHeader>MyWallet</StyledHeader>
       <StyledForm onSubmit={(event) => handleSubmit(event)}>
-        <StyledInput placeholder="Nome" />
-        <StyledInput placeholder="E-mail" />
-        <StyledInput placeholder="Senha" />
-        <StyledInput placeholder="Confirme a senha" />
+        <StyledInput
+          placeholder="Nome"
+          onChange={(event) => setUsername(event.target.value)}
+        />
+        <StyledInput
+          placeholder="E-mail"
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <StyledInput
+          placeholder="Senha"
+          onChange={(event) => setPassword(event.target.value)}
+        />
+        <StyledInput
+          placeholder="Confirme a senha"
+          onChange={(event) => setConfirmPassword(event.target.value)}
+        />
         <StyledButton type="submit">Cadastrar</StyledButton>
       </StyledForm>
       <Link to="/">Já tem uma conta? Entre agora!</Link>
