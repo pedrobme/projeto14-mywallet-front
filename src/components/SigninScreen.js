@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../contexts/AuthContext";
@@ -6,21 +7,42 @@ import { AuthContext } from "../contexts/AuthContext";
 const SigninScreen = () => {
   const { setAuthToken } = React.useContext(AuthContext);
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setAuthToken("Token recebido");
 
-    navigate("/wallet");
+    const loginObject = {
+      email: email,
+      password: password,
+    };
+
+    try {
+      const response = await axios.post("http://localhost:5000/", loginObject);
+      setAuthToken(response.data.authToken);
+
+      navigate("/wallet");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <ScreenContainer>
       <StyledHeader>MyWallet</StyledHeader>
       <StyledForm onSubmit={(event) => handleSubmit(event)}>
-        <StyledInput placeholder="E-mail" />
-        <StyledInput placeholder="Senha" />
+        <StyledInput
+          placeholder="E-mail"
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <StyledInput
+          type="password"
+          onChange={(event) => setPassword(event.target.value)}
+          placeholder="Senha"
+        />
         <StyledButton type="submit">Entrar</StyledButton>
       </StyledForm>
       <Link to="/signup">Primeira vez? Cadastre-se!</Link>
