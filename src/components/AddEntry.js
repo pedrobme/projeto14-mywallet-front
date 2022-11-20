@@ -1,53 +1,79 @@
+import axios from "axios";
+import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../contexts/AuthContext";
 
 const AddEntry = () => {
   const { entrytype } = useParams();
 
+  const { authToken } = useContext(AuthContext);
+
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+
   const navigate = useNavigate();
 
-  const handleClick = (event) => {
+  const handleClick = async (event) => {
     event.preventDefault();
+
+    const newEntryObject = {
+      amount: amount,
+      description: description,
+      type: entrytype,
+    };
+
+    try {
+      if (entrytype === "gain") {
+        console.log("entrou");
+        const response = await axios.post(
+          "http://localhost:5000/entry/gain",
+          newEntryObject,
+          {
+            headers: { Authorization: `Bearer ${authToken}` },
+          }
+        );
+        console.log(response);
+      } else if (entrytype === "loss") {
+        console.log("entrou");
+        const response = await axios.post(
+          "http://localhost:5000/entry/loss",
+          newEntryObject,
+          {
+            headers: { Authorization: `Bearer ${authToken}` },
+          }
+        );
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
     navigate(`/wallet`);
   };
 
-  const EntryJsx = () => {
-    const GainJsx = (
-      <ScreenContainer>
-        <StyledHeader>Nova Entrada</StyledHeader>
-        <StyledForm onSubmit={(event) => handleClick(event)}>
-          <StyledInput placeholder="Valor" />
-          <StyledInput placeholder="Descrição" />
-          <StyledButton type="submit">Salvar entrada</StyledButton>
-        </StyledForm>
-      </ScreenContainer>
-    );
-
-    const LossJsx = (
-      <ScreenContainer>
-        <StyledHeader>Nova Saída</StyledHeader>
-        <StyledForm onSubmit={(event) => handleClick(event)}>
-          <StyledInput placeholder="Valor" />
-          <StyledInput placeholder="Descrição" />
-          <StyledButton type="submit">Salvar saída</StyledButton>
-        </StyledForm>
-      </ScreenContainer>
-    );
-
-    switch (entrytype) {
-      case "gain":
-        return GainJsx;
-
-      case "loss":
-        return LossJsx;
-
-      default:
-        break;
-    }
-  };
-
-  return <EntryJsx />;
+  return (
+    <ScreenContainer>
+      <StyledHeader>
+        {entrytype === "gain" && "Nova entrada"}
+        {entrytype === "loss" && "Nova saída"}
+      </StyledHeader>
+      <StyledForm onSubmit={(event) => handleClick(event)}>
+        <StyledInput
+          placeholder="Valor"
+          onChange={(event) => setAmount(event.target.value)}
+        />
+        <StyledInput
+          placeholder="Descrição"
+          onChange={(event) => setDescription(event.target.value)}
+        />
+        <StyledButton type="submit">
+          {entrytype === "gain" && "Salvar entrada"}
+          {entrytype === "loss" && "Salvar saída"}
+        </StyledButton>
+      </StyledForm>
+    </ScreenContainer>
+  );
 };
 
 export default AddEntry;
