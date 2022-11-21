@@ -16,7 +16,7 @@ const WalletScreen = () => {
   useEffect(() => {
     async function GetWalletHistoryList() {
       try {
-        const response = await axios.get("http://localhost:5000/mywallet", {
+        const response = await axios.get(process.env.REACT_APP_WALLET, {
           headers: { Authorization: `Bearer ${authToken}` },
         });
 
@@ -47,7 +47,7 @@ const WalletScreen = () => {
   };
 
   const deleteEntry = (entryID) => {
-    axios.delete("http://localhost:5000/mywallet", {
+    axios.delete(process.env.REACT_APP_WALLET, {
       headers: { Authorization: `Bearer ${authToken}` },
       data: { entryID: entryID },
     });

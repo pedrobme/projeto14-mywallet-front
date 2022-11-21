@@ -26,7 +26,7 @@ const AddEntry = () => {
     try {
       if (entrytype === "gain") {
         const response = await axios.post(
-          "http://localhost:5000/entry/gain",
+          process.env.REACT_APP_ADDGAIN,
           newEntryObject,
           {
             headers: { Authorization: `Bearer ${authToken}` },
@@ -35,7 +35,7 @@ const AddEntry = () => {
         console.log(response);
       } else if (entrytype === "loss") {
         const response = await axios.post(
-          "http://localhost:5000/entry/loss",
+          process.env.REACT_APP_ADDLOSS,
           newEntryObject,
           {
             headers: { Authorization: `Bearer ${authToken}` },

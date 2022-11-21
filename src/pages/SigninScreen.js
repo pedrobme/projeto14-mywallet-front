@@ -9,8 +9,6 @@ const SigninScreen = () => {
     [passwordVisibility, setPasswordVisibility] = useState("hidden"),
     [errorLog, setErrorLog] = useState([]);
 
-  console.log(errorLog);
-
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -22,7 +20,10 @@ const SigninScreen = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/", loginObject);
+      const response = await axios.post(
+        process.env.REACT_APP_LOGIN,
+        loginObject
+      );
       localStorage.setItem("authToken", response.data.authToken);
       localStorage.setItem("username", response.data.username);
 

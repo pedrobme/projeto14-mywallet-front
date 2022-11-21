@@ -25,7 +25,7 @@ const SignupScreen = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/signup",
+        process.env.REACT_APP_SIGNUP,
         newUserObject
       );
       console.log(response);
