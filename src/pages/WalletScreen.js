@@ -13,8 +13,6 @@ const WalletScreen = () => {
   const [balance, setBalance] = useState(0);
   const [deletedEntry, setDeletedEntry] = useState(0);
 
-  console.log(balance);
-
   useEffect(() => {
     async function GetWalletHistoryList() {
       try {
@@ -49,7 +47,6 @@ const WalletScreen = () => {
   };
 
   const deleteEntry = (entryID) => {
-    console.log(entryID);
     axios.delete("http://localhost:5000/mywallet", {
       headers: { Authorization: `Bearer ${authToken}` },
       data: { entryID: entryID },

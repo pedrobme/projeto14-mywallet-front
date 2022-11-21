@@ -26,10 +26,6 @@ const SigninScreen = () => {
       localStorage.setItem("authToken", response.data.authToken);
       localStorage.setItem("username", response.data.username);
 
-      console.log("new user details:");
-      console.log("username:", response.data.username);
-      console.log("authToken:", response.data.authToken);
-
       navigate("/wallet");
     } catch (error) {
       setErrorLog(error.response.data);
