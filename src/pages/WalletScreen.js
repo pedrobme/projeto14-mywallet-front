@@ -1,15 +1,19 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { AuthContext } from "../contexts/AuthContext";
 
 const WalletScreen = () => {
   const navigate = useNavigate();
 
-  const { authToken } = useContext(AuthContext);
+  const authToken = localStorage.getItem("authToken");
+  const username = localStorage.getItem("username");
 
   const [walletHistoryList, setWalletHistoryList] = useState([]);
+  const [balance, setBalance] = useState(0);
+  const [deletedEntry, setDeletedEntry] = useState(0);
+
+  console.log(balance);
 
   useEffect(() => {
     async function GetWalletHistoryList() {
@@ -19,22 +23,44 @@ const WalletScreen = () => {
         });
 
         setWalletHistoryList(response.data);
+
+        let newBalance = 0;
+
+        response.data.forEach((entryData) => {
+          if (entryData.type === "gain") {
+            newBalance += Number(entryData.amount);
+          } else if (entryData.type === "loss") {
+            newBalance -= Number(entryData.amount);
+          }
+        });
+
+        setBalance(newBalance);
       } catch (error) {
         console.log(error);
       }
     }
 
     GetWalletHistoryList();
-  }, [walletHistoryList]);
+  }, [deletedEntry]);
 
   const handleClick = (entryType) => {
     navigate(`/entry/${entryType}`);
   };
 
+  const deleteEntry = (entryID) => {
+    console.log(entryID);
+    axios.delete("http://localhost:5000/mywallet", {
+      headers: { Authorization: `Bearer ${authToken}` },
+      data: { entryID: entryID },
+    });
+
+    setDeletedEntry(deletedEntry + 1);
+  };
+
   return (
     <ScreenContainer>
       <StyledHeader>
-        <p>Olá, Fulano</p>
+        <p>Olá, {username}</p>
         <ion-icon
           onClick={() => navigate("/")}
           name="log-out-outline"
@@ -52,14 +78,22 @@ const WalletScreen = () => {
                       {entryObject.description}
                     </EntryDescription>
                   </EntryInfo>
-                  <EntryAmount>{entryObject.amount}</EntryAmount>
+                  <ControlDiv>
+                    <EntryAmount type={entryObject.type}>
+                      {entryObject.amount}
+                    </EntryAmount>
+                    <ion-icon
+                      onClick={() => deleteEntry(entryObject._id)}
+                      name="remove-circle-outline"
+                    ></ion-icon>
+                  </ControlDiv>
                 </li>
               );
             })}
           </WalletHistoryUl>
-          <WalletBalance>
+          <WalletBalance balance={balance}>
             <p>SALDO</p>
-            <p>39,40</p>
+            <p>{balance}</p>
           </WalletBalance>
         </WalletDiv>
         <InsertEntriesButtons>
@@ -179,7 +213,21 @@ const EntryDescription = styled.p`
 `;
 
 const EntryAmount = styled.p`
-  color: #c70000;
+  color: ${(props) => props.type === "gain" && "#3cc502"};
+  color: ${(props) => props.type === "loss" && "#cc0000"};
+`;
+
+const ControlDiv = styled.div`
+  display: flex;
+
+  align-items: center;
+
+  ion-icon {
+    font-size: 15px;
+    margin-left: 5px;
+
+    cursor: pointer;
+  }
 `;
 
 const WalletBalance = styled.div`
@@ -204,7 +252,7 @@ const WalletBalance = styled.div`
     }
 
     :last-child {
-      color: #c70000;
+      color: ${(props) => (props.balance <= 0 ? "#cc0000" : "#3cc502")};
     }
   }
 `;

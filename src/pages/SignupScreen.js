@@ -4,10 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const SignupScreen = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [username, setUsername] = useState(""),
+    [email, setEmail] = useState(""),
+    [password, setPassword] = useState(""),
+    [confirmPassword, setConfirmPassword] = useState(""),
+    [passwordVisibility, setPasswordVisibility] = useState("hidden"),
+    [errorLog, setErrorLog] = useState([]);
 
   const navigate = useNavigate();
 
@@ -27,15 +29,29 @@ const SignupScreen = () => {
         newUserObject
       );
       console.log(response);
+      navigate("/");
     } catch (error) {
       console.log(error);
+      setErrorLog(error.response.data);
     }
+  };
 
-    navigate("/");
+  const alternatePasswordVisibility = () => {
+    switch (passwordVisibility) {
+      case "hidden":
+        setPasswordVisibility("visible");
+        break;
+      case "visible":
+        setPasswordVisibility("hidden");
+        break;
+
+      default:
+        break;
+    }
   };
 
   return (
-    <ScreenContainer>
+    <ScreenContainer errorLog={errorLog}>
       <StyledHeader>MyWallet</StyledHeader>
       <StyledForm onSubmit={(event) => handleSubmit(event)}>
         <StyledInput
@@ -46,14 +62,34 @@ const SignupScreen = () => {
           placeholder="E-mail"
           onChange={(event) => setEmail(event.target.value)}
         />
+        <PasswordDiv>
+          <StyledInput
+            type={passwordVisibility === "hidden" ? "password" : ""}
+            placeholder="Senha"
+            onChange={(event) => setPassword(event.target.value)}
+          />
+          {passwordVisibility === "hidden" ? (
+            <ion-icon
+              onClick={() => alternatePasswordVisibility()}
+              name="eye-outline"
+            ></ion-icon>
+          ) : (
+            <ion-icon
+              onClick={() => alternatePasswordVisibility()}
+              name="eye-off-outline"
+            ></ion-icon>
+          )}
+        </PasswordDiv>
         <StyledInput
-          placeholder="Senha"
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <StyledInput
+          type={passwordVisibility === "hidden" ? "password" : ""}
           placeholder="Confirme a senha"
           onChange={(event) => setConfirmPassword(event.target.value)}
         />
+        <ErrorUl>
+          {errorLog.map((errorMessage, index) => {
+            return <li key={index}>Error: {errorMessage}</li>;
+          })}
+        </ErrorUl>
         <StyledButton type="submit">Cadastrar</StyledButton>
       </StyledForm>
       <Link to="/">Já tem uma conta? Entre agora!</Link>
@@ -70,7 +106,7 @@ const ScreenContainer = styled.div`
   flex-direction: column;
 
   width: 100vw;
-  height: 450px;
+  height: ${(props) => (props.errorLog === [] ? "450px" : "550px")};
 
   justify-content: space-between;
   align-items: center;
@@ -116,6 +152,41 @@ const StyledInput = styled.input`
   }
 
   margin-bottom: 13px;
+`;
+
+const PasswordDiv = styled.div`
+  display: flex;
+  justify-content: center;
+
+  position: relative;
+
+  width: 100%;
+  max-width: 500px;
+  height: 58px;
+
+  border-radius: 5px;
+
+  border: none;
+
+  margin-bottom: 13px;
+
+  ion-icon {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+
+    cursor: pointer;
+
+    font-size: 30px;
+  }
+`;
+
+const ErrorUl = styled.ul`
+  li {
+    color: #cc0000;
+    font-size: 20px;
+    margin-block: 10px;
+  }
 `;
 
 const StyledButton = styled.button`

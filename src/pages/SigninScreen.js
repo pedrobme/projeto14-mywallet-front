@@ -2,11 +2,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { AuthContext } from "../contexts/AuthContext";
 
 const SigninScreen = () => {
-  const { setAuthToken } = React.useContext(AuthContext),
-    [email, setEmail] = useState(""),
+  const [email, setEmail] = useState(""),
     [password, setPassword] = useState(""),
     [passwordVisibility, setPasswordVisibility] = useState("hidden"),
     [errorLog, setErrorLog] = useState([]);
@@ -25,7 +23,14 @@ const SigninScreen = () => {
 
     try {
       const response = await axios.post("http://localhost:5000/", loginObject);
-      setAuthToken(response.data.authToken);
+      // setAuthToken(response.data.authToken);
+      localStorage.setItem("authToken", response.data.authToken);
+      // setUsername(response.data.username);
+      localStorage.setItem("username", response.data.username);
+
+      console.log("new user details:");
+      console.log("username:", response.data.username);
+      console.log("authToken:", response.data.authToken);
 
       navigate("/wallet");
     } catch (error) {

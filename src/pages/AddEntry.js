@@ -1,16 +1,17 @@
 import axios from "axios";
-import { useContext, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { AuthContext } from "../contexts/AuthContext";
 
 const AddEntry = () => {
   const { entrytype } = useParams();
 
-  const { authToken } = useContext(AuthContext);
+  // const { authToken } = useContext(AuthContext);
+  const authToken = localStorage.getItem("authToken");
 
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
+  const [errorLog, setErrorLog] = useState([]);
 
   const navigate = useNavigate();
 
@@ -43,11 +44,11 @@ const AddEntry = () => {
         );
         console.log(response);
       }
+      navigate(`/wallet`);
     } catch (error) {
       console.log(error);
+      setErrorLog(error.response.data);
     }
-
-    navigate(`/wallet`);
   };
 
   return (
@@ -65,11 +66,17 @@ const AddEntry = () => {
           placeholder="Descrição"
           onChange={(event) => setDescription(event.target.value)}
         />
+        <ErrorUl>
+          {errorLog.map((errorMessage, index) => {
+            return <li key={index}>Error: {errorMessage}</li>;
+          })}
+        </ErrorUl>
         <StyledButton type="submit">
           {entrytype === "gain" && "Salvar entrada"}
           {entrytype === "loss" && "Salvar saída"}
         </StyledButton>
       </StyledForm>
+      <Link to="/wallet">Voltar!</Link>
     </ScreenContainer>
   );
 };
@@ -82,10 +89,18 @@ const ScreenContainer = styled.div`
   display: flex;
   flex-direction: column;
 
+  align-items: center;
+
   width: 100vw;
-  height: 100vh;
+  height: 400px;
 
   padding: 25px;
+
+  a {
+    font-weight: 700;
+    font-size: 15px;
+    color: #ffffff;
+  }
 `;
 
 const StyledHeader = styled.header`
@@ -131,6 +146,14 @@ const StyledInput = styled.input`
   margin-bottom: 13px;
 `;
 
+const ErrorUl = styled.ul`
+  li {
+    color: #cc0000;
+    font-size: 20px;
+    margin-block: 10px;
+  }
+`;
+
 const StyledButton = styled.button`
   width: 100%;
   max-width: 326px;
@@ -141,7 +164,7 @@ const StyledButton = styled.button`
 
   border: none;
 
-  margin-top: 30px;
+  margin-block: 30px;
 
   font-weight: 700;
   font-size: 20px;
