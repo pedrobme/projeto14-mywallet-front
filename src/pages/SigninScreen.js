@@ -23,9 +23,7 @@ const SigninScreen = () => {
 
     try {
       const response = await axios.post("http://localhost:5000/", loginObject);
-      // setAuthToken(response.data.authToken);
       localStorage.setItem("authToken", response.data.authToken);
-      // setUsername(response.data.username);
       localStorage.setItem("username", response.data.username);
 
       console.log("new user details:");

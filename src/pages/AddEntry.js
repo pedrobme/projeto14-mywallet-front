@@ -6,7 +6,6 @@ import styled from "styled-components";
 const AddEntry = () => {
   const { entrytype } = useParams();
 
-  // const { authToken } = useContext(AuthContext);
   const authToken = localStorage.getItem("authToken");
 
   const [amount, setAmount] = useState("");
