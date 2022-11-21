@@ -1,8 +1,31 @@
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../contexts/AuthContext";
 
 const WalletScreen = () => {
   const navigate = useNavigate();
+
+  const { authToken } = useContext(AuthContext);
+
+  const [walletHistoryList, setWalletHistoryList] = useState([]);
+
+  useEffect(() => {
+    async function GetWalletHistoryList() {
+      try {
+        const response = await axios.get("http://localhost:5000/mywallet", {
+          headers: { Authorization: `Bearer ${authToken}` },
+        });
+
+        setWalletHistoryList(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    GetWalletHistoryList();
+  }, [walletHistoryList]);
 
   const handleClick = (entryType) => {
     navigate(`/entry/${entryType}`);
@@ -20,16 +43,19 @@ const WalletScreen = () => {
       <MainContent>
         <WalletDiv>
           <WalletHistoryUl>
-            <li>
-              <EntryInfo>
-                <EntryDate>30/11</EntryDate>
-                <EntryDescription>
-                  Almoço na minha mãe nao esquecer de pagar ela em até uma
-                  semana
-                </EntryDescription>
-              </EntryInfo>
-              <EntryAmount>39,90</EntryAmount>
-            </li>
+            {walletHistoryList.map((entryObject, index) => {
+              return (
+                <li key={index}>
+                  <EntryInfo>
+                    <EntryDate>{entryObject.date}</EntryDate>
+                    <EntryDescription>
+                      {entryObject.description}
+                    </EntryDescription>
+                  </EntryInfo>
+                  <EntryAmount>{entryObject.amount}</EntryAmount>
+                </li>
+              );
+            })}
           </WalletHistoryUl>
           <WalletBalance>
             <p>SALDO</p>

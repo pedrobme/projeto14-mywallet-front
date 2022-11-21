@@ -25,7 +25,6 @@ const AddEntry = () => {
 
     try {
       if (entrytype === "gain") {
-        console.log("entrou");
         const response = await axios.post(
           "http://localhost:5000/entry/gain",
           newEntryObject,
@@ -35,7 +34,6 @@ const AddEntry = () => {
         );
         console.log(response);
       } else if (entrytype === "loss") {
-        console.log("entrou");
         const response = await axios.post(
           "http://localhost:5000/entry/loss",
           newEntryObject,
