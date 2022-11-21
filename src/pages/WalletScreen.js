@@ -37,6 +37,7 @@ const WalletScreen = () => {
         setBalance(newBalance);
       } catch (error) {
         console.log(error);
+        alert(error);
       }
     }
 
